@@ -2,7 +2,7 @@
 基于Vue框架
 
 
-首发地址[https://github.com/liangxiaojuan/vue-todos]
+[首发地址](https://github.com/liangxiaojuan/vue-todos)
 
 
 ### 运行
