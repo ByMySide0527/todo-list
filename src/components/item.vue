@@ -1,44 +1,54 @@
+
 <!--<template>-->
-  <!--<div class="list-item editingClass editing"> &lt;!&ndash; 最外层容器&ndash;&gt;-->
-    <!--<label class="checkbox"> &lt;!&ndash;自定义的多选框&ndash;&gt;-->
-      <!--<input type="checkbox" v-model="item.checked"> &lt;!&ndash;item.checked&ndash;&gt;-->
+  <!--<div class="list-item editingClass editing">-->
+    <!--<label class="checkbox">-->
+      <!--<input type="checkbox" v-model="item.checked">-->
       <!--<span class="checkbox-custom"></span>-->
     <!--</label>-->
-    <!--<input type="text" v-model="item.text" placeholder='写点什么。。。'>  &lt;!&ndash;绑定item.text&ndash;&gt;-->
-    <!--<a class="delete-item"> &lt;!&ndash;删除图标&ndash;&gt;-->
+    <!--<input type="text" v-model="item.text" placeholder='写点什么。。。'>-->
+    <!--<a class="delete-item">-->
       <!--<span class="icon-trash"></span>-->
     <!--</a>-->
   <!--</div>-->
-<!--</template>>-->
-
-
+<!--</template>-->
 <!--<script>-->
+  <!--// item 是todo的子组件,他接受一个对象item,来进行处理-->
   <!--export default {-->
-    <!--props: ['item']  //子组件显式的用 props 选项声明它期待获得的数据，-->
-    <!--// 这里申明 它想要一个叫做 ’item‘的数据。-->
+    <!--props: {-->
+      <!--item: {-->
+        <!--type: Object,-->
+        <!--default: () => {-->
+          <!--return {-->
+            <!--checked: false,-->
+            <!--text: '你好,世界'-->
+          <!--}-->
+        <!--}-->
+      <!--}-->
+    <!--}-->
   <!--};-->
-
 <!--</script>-->
 <!--<style lang="less">-->
   <!--@import '../common/style/list-items.less';-->
 <!--</style>-->
 
 
-
 <template>
-  <div class="list-item editingClass editing">
-    <label class="checkbox">
-      <input type="checkbox" v-model="item.checked">
-      <span class="checkbox-custom"></span>
-    </label>
-    <input type="text" v-model="item.text" placeholder='写点什么。。。'>
-    <a class="delete-item">
-      <span class="icon-trash"></span>
-    </a>
-  </div>
+  <transition name="slide-fade">
+    <div class="list-item  editingClass editing " :class="{checked: item.checked}" v-show="!item.isDelete">
+      <label class="checkbox">
+        <input type="checkbox" v-model="item.checked" name="checked" @change="onChange" :disabled="locked">
+        <span class="checkbox-custom"></span>
+      </label>
+      <input type="text" v-model="item.text" placeholder='写点什么。。。'  :disabled=" item.checked || locked" @keyup.enter="onChange">
+      <a class="delete-item" v-if="item.checked && !locked" @click="item.isDelete = true;onChange()">
+        <span class="icon-trash"></span>
+      </a>
+    </div>
+  </transition>
 </template>
 <script>
   // item 是todo的子组件,他接受一个对象item,来进行处理
+  import { editRecord } from '../api/api';
   export default {
     props: {
       item: {
@@ -47,12 +57,44 @@
           return {
             checked: false,
             text: '你好,世界'
-          }
+          };
         }
+      },
+      'index': {
+
+      },
+      'id': {
+
+      },
+      'init': {
+
+      },
+      'locked': {
+      }
+    },
+    methods: {
+      // 用户无论删除,修改，锁定都可以利用这个方法。
+      onChange() {
+        editRecord({
+          id: this.id, record: this.item, index: this.index
+        }).then(data => {
+          this.init();
+          this.$store.dispatch('getTodo');
+        });
       }
     }
   };
 </script>
 <style lang="less">
   @import '../common/style/list-items.less';
+  .slide-fade-enter-active {
+    transition: all .3s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-active {
+    transform: translateX(10px);
+    opacity: 0;
+  }
 </style>
