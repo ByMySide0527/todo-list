@@ -11,8 +11,6 @@ export default {
   start() { // 初始化函数
     let mock = new MockAdapter(axios); // 创建 MockAdapter 实例
     // 获取todo列表
-
-
     mock.onGet('/todo/list').reply(config => { //  config 指 前台传过来的值
       let mockTodo = Todos.map(todo => { // 重组 Todos数组，变成我们想要的数据
         return {
@@ -52,10 +50,6 @@ export default {
         }, 200);
       });
     });
-
-
-
-
     // 获取todo单个列表
     mock.onGet('/todo/listId').reply(config => {
       let {
@@ -67,9 +61,9 @@ export default {
         return id && todo.id === id;
       });
       // todo.count (等待完成数目)等于 todo.record（代办事项列表下面未被选择的数据
-      todo.count = todo.record.filter((data) => {
+      todo ? todo.count = todo ? todo.record.filter((data) => {
         return data.checked === false;
-      }).length;
+      }).length : null : false;
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve([200, {
@@ -78,8 +72,6 @@ export default {
         }, 200);
       });
     });
-
-
     // 新增一条代办事项
     mock.onPost('/todo/addRecord').reply(config => {
       let {
@@ -124,6 +116,24 @@ export default {
         }, 200);
       });
     });
-
+    // 修改标题
+    mock.onPost('/todo/editRecord').reply(config => {
+      let {
+        id,
+        record,
+        index
+      } = JSON.parse(config.data);
+      Todos.some((t) => {
+        if (t.id === id) {
+          t.record[index] = record;
+          return true;
+        }
+      });
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve([200]);
+        }, 200);
+      });
+    });
   }
 };

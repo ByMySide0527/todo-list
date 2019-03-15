@@ -1,6 +1,6 @@
 import Vue from 'vue' // 导入Vue
-import Router from 'vue-router' // 导入vue-router 库
-import Layouts from '../components/layouts'
+import Router from 'vue-router'; // 导入vue-router 库
+import Layouts from '../components/layouts';
 import todo from "../components/todo"; // 导入layouts.vue 组件
 
 

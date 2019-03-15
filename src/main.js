@@ -7,7 +7,7 @@ import router from './router'
 import Mock from './mock';
 Mock.start();
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
@@ -16,4 +16,4 @@ new Vue({
   store,
   components: { App },
   template: '<App/>'
-})
+});

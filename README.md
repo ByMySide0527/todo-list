@@ -1,16 +1,21 @@
-# todo-list
-基于Vue框架
+# todo-master
 
-[首发地址](https://github.com/liangxiaojuan/vue-todos)(源码和教程)
+> A Vue.js project
 
-### 运行
+## Build Setup
+
 ``` bash
-
+# install dependencies
 npm install
 
+# serve with hot reload at localhost:8080
 npm run dev
-# 本地运行  localhost:8080
 
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
 ```
 
-#### 响应式设计，pc端，移动端
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

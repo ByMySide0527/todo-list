@@ -1,16 +1,3 @@
-<!--<template>-->
-  <!--<section class="container" > &lt;!&ndash;最外层容器&ndash;&gt;-->
-    <!--<section class="menu"> &lt;!&ndash;左边的容器&ndash;&gt;-->
-      <!--<menus></menus>-->
-    <!--</section>-->
-    <!--<section class="content-container">&lt;!&ndash;右边的容器&ndash;&gt;-->
-      <!--<todo></todo>-->
-    <!--</section>-->
-  <!--</section>-->
-<!--</template>-->
-
-
-
 <template>
   <section class="container" :class="{'menu-open': menuOpen}">
   <!-- 根据menuOpen的值来判断是否使用menu-open样式 -->
